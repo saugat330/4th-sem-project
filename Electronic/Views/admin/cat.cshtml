@@ -1,0 +1,107 @@
+﻿@model List<Electronic.Models.category>
+@{
+    Layout = "~/Views/Shared/dashLayout.cshtml";
+    int sn = 0;
+}
+
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <a href="~/Content/bootstrap-theme.css.map">
+    <a href="~/Content/bootstrap-theme.min.css.map">
+    <a href="~/Content/bootstrap.css.map">
+    <a href="~/Content/bootstrap.min.css.map">
+
+<div id="menu">
+    <ul>
+        <li style="color:white">Welcome admin</li>
+        <li><a href="~/admin/cat" class="selected">Categories</a></li>
+        <li><a href="~/admin/product">Product</a></li>
+        @*<li><a href="~/admin/customer">Customers</a></li>*@
+        <li><a href="@Url.Action("index","Home")">Homepage</a></li>
+        <li><a href="/admin/logout">SignOut</a></li>
+    </ul>
+</div>
+<div id="content">
+    <div id="categories"></div>
+
+    <h1>Categories</h1>
+    <table class="table">
+        <tr>
+            <td>SN</td>
+            <td>ID</td>
+            <td>NAME</td>
+            <td>DESCRIPTION</td>
+
+        </tr>
+        @foreach (var data in Model)
+        {
+            <tr>
+                <td>@(++sn)</td>
+                <td>@data.id</td>
+                <td>@data.catName</td>
+                <td>@data.catDesc</td>
+                <td><a id="@data.id" onclick="showEditBox(this.id)">Edit</a></td>
+                <td><a href="@Url.Action("deleteData",new { id = data.id})"><h4>Delete</h4></a></td>
+            </tr>
+        }
+
+    </table>
+
+    <div>
+        <h2>Add Categories</h2>
+        @using (Html.BeginForm("saveData", null, FormMethod.Post, new { @class = "" }))
+        {
+            <input type="text" name="catName" placeholder="Category Name" required />
+            <br />
+            <br />
+            <input type="text" name="catDesc" placeholder="Description" required />
+            <br />
+            <br />
+            <button>Save</button>
+        }
+    </div>
+
+    @foreach (var data in Model)
+    {
+        <div class="edit" id="editcat_@data.id" style="display:none">
+            <h2>Edit </h2>
+            @using (Html.BeginForm("updateData", null, FormMethod.Post, new { @class = "" }))
+            {
+                <form action="saveData">
+                    <input type="hidden" name="id" value="@data.id" />
+                    <input type="text" name="categoryName" placeholder="Category Name" required value="@data.catName" />
+                    <br />
+                    <br />
+                    <input type="text" name="categoryDesc" placeholder="Description" required value="@data.catDesc" />
+                    <br />
+                    <br />
+                    <button class="btn btn-success">Edit</button>
+                    <a id="@data.id" onclick="closeBox(this.id)" style="color:red">Discard</a>
+                </form>
+            }
+        </div>
+    }
+</div>
+<script>
+    let add = document.querySelector("#add");
+    let btn = document.querySelector("#button");
+    function create() {
+        add.style.display = "block";
+    }
+    function discard() {
+        add.style.display = "none";
+    }
+    function showEditBox(id) {
+        document.getElementById("editcat_" + id).style.display = "block";
+
+    }
+
+    function closeBox(id) {
+        document.getElementById("editcat_" + id).style.display = "none";
+    }
+</script>

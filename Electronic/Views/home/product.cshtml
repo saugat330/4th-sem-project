@@ -1,0 +1,195 @@
+﻿@model List<Electronic.Models.product>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>product</title>
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #E6E6E6;
+        }
+
+        h2 {
+            font-family: 'Poppins' sans-serif;
+        }
+
+        button {
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            background-color: darkorange;
+            color: white;
+            width: 150px;
+            padding: 10px;
+        }
+
+        footer {
+            text-align: center;
+            background-color: white;
+            display: block;
+            width: 100%;
+            padding: 20px;
+        }
+
+        #prodPage {
+            width: 95%;
+            padding: 15px;
+            margin: 150px 39px 30px 39px;
+            text-align: center;
+            background: white;
+            border-radius: 25px;
+        }
+
+        h2 {
+            margin-bottom: 60px;
+        }
+
+        #find {
+            display: inline-block;
+            position: absolute;
+            top: 164px;
+            right: 108px;
+            border: 2px darkorange;
+        }
+
+        .button {
+            border-radius: 15px;
+            border: none;
+            outline: none;
+            background-color: darkorange;
+            color: white;
+            width: 100px;
+            padding: 5px;
+        }
+
+        #search a {
+            position: absolute;
+            top: 118px;
+            right: 232px;
+            color: olivedrab;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+
+        }
+        .row {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: 80px;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <nav id="mainNavbar" class="navbar navbar-expand-lg bg-nav fixed-top">
+            <a class="navbar-brand" href="@Url.Action("Index","Home")">
+                <img src="~/Content/images/kass.png" style="width: 70px; height: 50px;">
+            </a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ml-auto">
+                    <p style="position:relative; top:7px; left:-25px;">
+                        Hello
+                        @if (Session["username"] == null && Session["admin"] != null)
+                        {
+                            @Session["admin"]
+                        }
+
+                        else
+                        {
+                            @Session["username"]
+                        }
+                    </p>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Category","Home")">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("product","Home")">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Contact","Home")">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("cart","Home")">Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/logout">Logout</a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav> <!-- /.navbar -->
+    </header>
+    <div id="search">
+        <a href="#" onclick="findProd()">Search</a>
+        <p style="color:red; margin-left:50px; position:absolute; right:190px; visibility:hidden; cursor:pointer; font-weight:bolder;" id="cancel" onclick="cancel()">X</p>
+    </div>
+    <div id="prodPage">
+        <h2>Available Products</h2>
+        <div id="find" style="visibility:hidden">
+            @using (Html.BeginForm("product", "Home", FormMethod.Post))
+            {
+                <b>Search options:</b><br />
+                @Html.RadioButton("option", "cat")<text>Category</text>
+                @Html.RadioButton("option", "name")<text>Name</text><br />
+                @Html.TextBox("search", null, new { @placeholder = "Searchin" })
+                <button class="button">Search</button>
+            }
+        </div>
+        <div class="row" style="margin-top:0px">
+            @if (Model != null)
+            {
+
+                foreach (var item in Model)
+                {
+                    using (Html.BeginForm("myCart", "Home", FormMethod.Post, new { @class = "", id = "" }))
+                    {
+                        <input type="hidden" value="@item.id" name="id" />
+                        <img src="@Url.Content(item.productImage)" style=" height:250px; border-radius:40px" />
+                        <h4 style="color:#808080; font-family:'Arial Rounded MT';text-align:center">@item.productName</h4>
+                        <p style="color:#808080; font-family:'Arial Rounded MT';text-align:center">Rs: @item.price</p>
+                        <p style="color:#808080; font-family:'Arial Rounded MT';text-align:center">@item.productDesc</p>
+                        <button class="addCart">Add to cart</button>
+                    }
+                }
+            }
+        </div>
+    </div>
+    <script>
+        function findProd() {
+            document.querySelector("#find").style.visibility = "visible";
+            document.querySelector("#cancel").style.visibility = "visible";
+        }
+
+        function cancel() {
+            document.querySelector("#cancel").style.visibility = "hidden";
+            document.querySelector("#find").style.visibility = "hidden";
+        }
+
+        function cart() {
+            alert("product added to cart succesfully");
+        }
+
+
+    </script>
+
+</body>
+</html>

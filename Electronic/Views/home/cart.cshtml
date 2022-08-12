@@ -1,0 +1,115 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>cart</title>
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #E6E6E6;
+        }
+
+        h2 {
+            font-family: 'Poppins' sans-serif;
+        }
+
+        .button {
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            background-color: darkorange;
+            color: white;
+            width: 150px;
+            padding: 10px;
+            position: relative;
+            left: 45%;
+        }
+
+            .button a {
+                color: white;
+                text-decoration: none;
+            }
+
+        footer {
+            text-align: center;
+            background-color: white;
+            display: block;
+            width: 100%;
+            padding: 20px;
+            /*position:absolute;
+            bottom:0px;*/
+            margin-top: 20px;
+        }
+
+        table {
+            border: 1px solid black;
+            margin-top: 2vh;
+            background-color: white;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 16vh;
+        }
+    </style>
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <a href="~/Content/bootstrap-theme.css.map">
+    <a href="~/Content/bootstrap-theme.min.css.map">
+    <a href="~/Content/bootstrap.css.map">
+    <a href="~/Content/bootstrap.min.css.map">
+</head>
+<body>
+    <h2>Items in myCart</h2>
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>Bill ID</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Image</th>
+        </tr>
+
+        @foreach (var db in Model)
+        {
+            <tr>
+                <td>@db.id</td>
+                <td>@db.productName</td>
+                <td><input type="number" value="1" style="width:100px" /></td>
+                <td> @db.price</td>
+                <td><img src="@(db.productImage!=null?Url.Content(db.productImage):"")" height="90" width="120" /></td>
+                <td><a href="@Url.Action("deleteData",new { id = db.id})"><h4>Delete</h4></a></td>
+            </tr>
+        }
+    </table>
+    <button class="button" onclick="checkout()"><a href="@Url.Action("MakePayment")">Checkout</a></button>
+
+
+    <footer>
+        <p>&copy; @DateTime.Now.Year - All Rights Reserved</p>
+    </footer>
+
+    <script>
+        function checkout() {
+            alert("Purchase succesful");
+        }
+    </script>
+</body>
+</html>

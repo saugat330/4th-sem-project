@@ -1,0 +1,134 @@
+﻿@model List<Electronic.Models.product>
+@{
+    Layout = "~/Views/Shared/dashLayout.cshtml";
+    int sn = 0;
+
+}
+
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <a href="~/Content/bootstrap-theme.css.map">
+    <a href="~/Content/bootstrap-theme.min.css.map">
+    <a href="~/Content/bootstrap.css.map">
+    <a href="~/Content/bootstrap.min.css.map">
+    <div id="menu">
+        <ul>
+            <li style="color:white">Welcome admin</li>
+            <li><a href="~/admin/cat">Categories</a></li>
+            <li><a href="~/admin/product" class="selected">Product</a></li>
+            @*<li><a href="~/admin/customer">Customers</a></li>*@
+            <li><a href="@Url.Action("index","Home")">Homepage</a></li>
+            <li><a href="/admin/logout">SignOut</a></li>
+        </ul>
+    </div>
+    <div id="content">
+        <h1>Products</h1>
+
+
+        <a onclick="create()"><h4>Add Product</h4></a>
+
+
+        <table class="table">
+            <tr>
+                <th>SN</th>
+                <th>ID</th>
+                <th>Product Name</th>
+                <th>Category ID</th>
+                <th>Price (Nrs)</th>
+                <th>Image</th>
+                <th>Description</th>
+            </tr>
+            @foreach (var db in Model)
+            {
+                <tr>
+                    <td>@(++sn)</td>
+                    <td>@db.id</td>
+                    <td>@db.productName</td>
+                    <td>@db.categoryId</td>
+                    <td>@db.price</td>
+                    <td><img src="@(db.productImage!=null?Url.Content(db.productImage):"")" height="90" width="120" /></td>
+                    <td>@db.productDesc</td>
+                    <td><a id="@db.id" onclick="showEditBox(this.id)">Edit</a></td>
+                    <td><a href="@Url.Action("delete",new { id = db.id})"><h4>Delete</h4></a></td>
+                </tr>
+            }
+        </table>
+
+        <div class="add" style="display:none">
+            <h2>Add Product</h2>
+            @using (Html.BeginForm("save", null, FormMethod.Post, new { @class = "", @enctype = "multipart/form-data" }))
+            {
+                <div>
+                    <input type="text" name="productName" placeholder="Product Name" required />
+                </div>
+                <div>
+                    @Html.DropDownList("catID", null, "--select category--", htmlAttributes: new { @Name = "categoryId", @class = "form-control" })
+                </div>
+                <div>
+                    <input type="number" name="Price" placeholder="Price" class="form-control" required />
+                </div>
+                <div>
+                    <input type="file" name="productImage" value="Choose a image" class="form-control" required />
+                </div>
+                <div>
+                    <input type="text" name="productDesc" placeholder="Description" class="form-control" required />
+                </div>
+                <div>
+                    <button class="btn btn-success">Save</button>
+                    <button id="btn" class="btn  btn-danger" onclick="discard()">discard</button>
+                </div>
+            }
+        </div>
+
+        @foreach (var data in Model)
+        {
+            <div class="edit" id="editprod_@data.id" style="display:none">
+                <h2>Edit @data.productName</h2>
+                @using (Html.BeginForm("update", null, FormMethod.Post, new { @class = "", @enctype = "multipart/form-data" }))
+                {
+                    <form action="save">
+                        <input type="hidden" name="id" value="@data.id" />
+                        <input type="text" name="productName" placeholder="Product Name" required value="@data.productName" />
+                        <br />
+                        @Html.DropDownList("catID", null, "--select category--", htmlAttributes: new { @Name = "categoryId", @class = "form-control" })
+                        <br />
+                        <input type="number" name="price" placeholder="Price" class="form-control" value="@data.price" required />
+                        <br />
+                        <input type="file" name="productImage" value="@data.productImage" required />
+                        <br />
+                        <input type="text" name="productDesc" placeholder="Description" required value="@data.productDesc" />
+                        <br />
+                        <br />
+                        <button class="btn btn-success">Edit</button>
+                        <a id="@data.id" onclick="closeBox(this.id)" style="color:red">Discard</a>
+                    </form>
+                }
+            </div>
+        }
+    </div>
+
+    <script>
+        let add = document.querySelector(".add");
+
+        function create() {
+            add.style.display = "block";
+        }
+        function discard() {
+            add.style.display = "none";
+        }
+
+        function showEditBox(id) {
+            document.getElementById("editprod_" + id).style.display = "block";
+
+        }
+
+        function closeBox(id) {
+            document.getElementById("editprod_" + id).style.display = "none";
+        }
+
+    </script>

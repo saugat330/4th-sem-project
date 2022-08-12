@@ -1,0 +1,301 @@
+﻿@model List<Electronic.Models.category>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Electronics</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="~/Content/style.css" rel="stylesheet" />
+    @*<link href="~/Content/PagedList.css" rel="stylesheet" />*@
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #E6E6E6;
+        }
+
+        h2 {
+            font-family: 'Poppins' sans-serif;
+        }
+
+        button {
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            background-color: darkorange;
+            color: white;
+            width: 150px;
+            padding: 10px;
+        }
+
+        footer {
+            text-align: center;
+            background-color: white;
+            display: block;
+            width: 100%;
+            padding: 20px;
+        }
+
+        #catPage {
+            width: 95%;
+            padding: 15px;
+            margin: 150px 39px 30px 39px;
+            text-align: center;
+            background: white;
+            border-radius: 25px;
+        }
+
+        .pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+            .pagination > li {
+                display: inline;
+            }
+
+                .pagination > li > a,
+                .pagination > li > span {
+                    position: relative;
+                    float: left;
+                    padding: 6px 12px;
+                    margin-left: -1px;
+                    line-height: 1.428571429;
+                    text-decoration: none;
+                    background-color: #C8C4C4;
+                    border: 1px solid #dddddd;
+                }
+
+                .pagination > li:first-child > a,
+                .pagination > li:first-child > span {
+                    margin-left: 0;
+                    border-bottom-left-radius: 4px;
+                    border-top-left-radius: 4px;
+                }
+
+                .pagination > li:last-child > a,
+                .pagination > li:last-child > span {
+                    border-top-right-radius: 4px;
+                    border-bottom-right-radius: 4px;
+                }
+
+                .pagination > li > a:hover,
+                .pagination > li > span:hover,
+                .pagination > li > a:focus,
+                .pagination > li > span:focus {
+                    background-color: #737272;
+                }
+
+            .pagination > .active > a,
+            .pagination > .active > span,
+            .pagination > .active > a:hover,
+            .pagination > .active > span:hover,
+            .pagination > .active > a:focus,
+            .pagination > .active > span:focus {
+                z-index: 2;
+                color: #737272;
+                cursor: default;
+                background-color: #87ceeb;
+                border-color: #737272;
+            }
+
+            .pagination > .disabled > span,
+            .pagination > .disabled > a,
+            .pagination > .disabled > a:hover,
+            .pagination > .disabled > a:focus {
+                color: #737272;
+                cursor: not-allowed;
+                background-color: #737272;
+                border-color: #dddddd;
+            }
+
+        .pagination-lg > li > a,
+        .pagination-lg > li > span {
+            padding: 10px 16px;
+            font-size: 18px;
+        }
+
+        .pagination-lg > li:first-child > a,
+        .pagination-lg > li:first-child > span {
+            border-bottom-left-radius: 6px;
+            border-top-left-radius: 6px;
+        }
+
+        .pagination-lg > li:last-child > a,
+        .pagination-lg > li:last-child > span {
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+
+        .pagination-sm > li > a,
+        .pagination-sm > li > span {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .pagination-sm > li:first-child > a,
+        .pagination-sm > li:first-child > span {
+            border-bottom-left-radius: 3px;
+            border-top-left-radius: 3px;
+        }
+
+        .pagination-sm > li:last-child > a,
+        .pagination-sm > li:last-child > span {
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+
+        .pager {
+            padding-left: 0;
+            margin: 20px 0;
+            text-align: center;
+            list-style: none;
+        }
+
+            .pager:before,
+            .pager:after {
+                display: table;
+                content: " ";
+            }
+
+            .pager:after {
+                clear: both;
+            }
+
+            .pager:before,
+            .pager:after {
+                display: table;
+                content: " ";
+            }
+
+            .pager:after {
+                clear: both;
+            }
+
+            .pager li {
+                display: inline;
+            }
+
+                .pager li > a,
+                .pager li > span {
+                    display: inline-block;
+                    padding: 5px 14px;
+                    background-color: #737272;
+                    border: 1px solid #dddddd;
+                    border-radius: 15px;
+                }
+
+                    .pager li > a:hover,
+                    .pager li > a:focus {
+                        text-decoration: none;
+                        background-color: #737272;
+                    }
+
+            .pager .next > a,
+            .pager .next > span {
+                float: right;
+            }
+
+            .pager .previous > a,
+            .pager .previous > span {
+                float: left;
+            }
+
+            .pager .disabled > a,
+            .pager .disabled > a:hover,
+            .pager .disabled > a:focus,
+            .pager .disabled > span {
+                color: #737272;
+                cursor: not-allowed;
+                background-color: #ffffff;
+            }
+
+    </style>
+</head>
+<body>
+    <header id="header">
+        <nav id="mainNavbar" class="navbar navbar-expand-lg bg-nav fixed-top">
+            <a class="navbar-brand" href="@Url.Action("Index","Home")">
+                <img src="~/Content/images/kass.png" style="width: 70px; height: 50px;">
+            </a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ml-auto">
+                    <p style="position:relative; top:7px; left:-25px;">
+                        Hello
+                        @if (Session["username"] == null && Session["admin"] != null)
+                        {
+                            @Session["admin"]
+                        }
+
+                        else
+                        {
+                            @Session["username"]
+                        }
+                    </p>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Category","Home")">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("product","Home")">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Contact","Home")">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("cart","Home")">Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/logout">Logout</a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav> <!-- /.navbar -->
+    </header>
+
+   
+    <div id="catPage">
+        <h2>Available Categories</h2>
+        <div class="row" style="margin-top:0px">
+            @if (Model != null)
+            {
+
+                foreach (var item in Model)
+                {
+                    <div class="col-lg-4 col-md-4" style="height:450px;">
+                       @* <img src="@Url.Content(item.categoryImage)" style=" height:300px;width:90% ;border-radius:40px" />*@
+                        <h4 style="color:#808080; font-family:'Arial Rounded MT';text-align:center">@item.catName</h4>
+                        <p style="color:#808080; font-family:'Arial Rounded MT';text-align:center">@item.catDesc</p>
+                        <a href="/home/product" style="color:white; text-decoration:none; background-color:darkorange; border-radius:10px; padding:11.5px;">View more</a>
+                    </div>
+
+                }
+            }
+        @*</div>
+        Page @(Model.PageCount < Model.PageNumber ? Page : Model.PageNumber) of @Model.PageCount  @Html.PagedListPager(Model, i => Url.Action("category", "Home", new { i }))
+    </div>*@
+
+
+    <footer>
+            <p>&copy; @DateTime.Now.Year - All Rights Reserved</p>
+        </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+﻿@model List<Electronic.Models.category>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Electronics</title>
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #E6E6E6;
+        }
+
+        .carousel-inner img {
+            width: 100vw;
+            height: 100vh;
+            filter: brightness(50%);
+        }
+
+        #category, #BestSeller {
+            width: 95%;
+            height: 60vh;
+            padding: 15px;
+            margin: 100px 39px;
+            text-align: center;
+            background: white;
+            border-radius: 25px;
+        }
+
+        #landing h2 {
+            margin: 50px 0px 20px 0px;
+        }
+
+        #items {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        #landing img {
+            height: 250px;
+            width: 250px;
+        }
+
+        .cats {
+            color: white;
+            height: 280px;
+            background: darkorange;
+        }
+        .cat{
+            color: white;
+            height: 100px;
+            background: darkorange;
+        }
+
+
+        #BestSeller .cats {
+            height: 320px;
+        }
+
+        #best {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        #review {
+            background-color: lightyellow;
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            text-align: center;
+        }
+
+            #review #detail {
+                width: 25%;
+            }
+
+                #review #detail img {
+                    margin: 20px 40px;
+                }
+
+            #review #text {
+                margin: 0px 30px;
+            }
+
+                #review #text img {
+                    height: 150px;
+                    width: 150px;
+                    margin-left: 50px;
+                }
+
+        #brands {
+            width: 95%;
+            height: 75vh;
+            padding: 10px;
+            border-radius: 25px;
+            margin: 100px 39px;
+            text-align: center;
+            background: white;
+        }
+
+            #brands #abc {
+                display: flex;
+                justify-content: space-around;
+            }
+
+        .brand {
+            width: 18%;
+            height: 380px;
+            background-color: azure;
+            margin: 50px 0px;
+        }
+
+        #brands #abc img {
+            width: 85%;
+            height: 250px;
+            margin-top: 30px;
+        }
+
+        #brands p {
+            background: darkorange;
+        }
+
+        footer {
+            background: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #work .banner-content {
+            color: white;
+            position: absolute;
+            z-index: 1000;
+            width: 70vw;
+            top: 20px;
+            left: 40px;
+        }
+    </style>
+</head>
+@*<body>
+    <h2>Available Categories</h2>
+    <div style="margin-top:0px">
+        @if (Model != null)
+        {
+
+            foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-4" style="height:450px;">
+                    <h4 style="color:#808080; font-family:'Arial Rounded MT';text-align:center">@item.catName</h4>
+                    <p style="color:#808080; font-family:'Arial Rounded MT';text-align:center">@item.catDesc</p>
+                    <a href="/home/product" style="color:white; text-decoration:none; background-color:darkorange; border-radius:10px; padding:11.5px;">View more</a>
+                </div>
+
+            }
+        }
+    </div>*@
+    <body id="home">
+        <header id="header">
+            <nav id="mainNavbar" class="navbar navbar-expand-lg bg-nav fixed-top">
+                <a class="navbar-brand" href="@Url.Action("Index","Home")">
+                    <img src="~/Content/images/kass.png" style="width: 70px; height: 50px;">
+                </a>
+                <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav ml-auto">
+                        <p style="position:relative; top:7px; left:-25px;">
+                            Hello
+                            @if (Session["username"] == null && Session["admin"] != null)
+                            {
+                                @Session["admin"]
+                            }
+
+                            else
+                            {
+                                @Session["username"]
+                            }
+                        </p>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("category","Home")">Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("product","Home")">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Contact","Home")">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("cart","Home")">Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/logout">Logout</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav> <!-- /.navbar -->
+
+            <div class="top-carousel">
+                <div id="work" class="carousel slide" data-ride="carousel">
+                    <div class="banner-content">
+                        <h1 style="display:inline; margin-left:-30rem">GET WHAT YOU WANT</h1>
+                        <p class="col-md-5 adjust">
+                            visit us for awesome deals and offers
+                        </p>
+                        <br>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="~/Content/images/case.jpg" class="d-block w-100" alt="">
+
+                        </div>
+                        <div class="carousel-item">
+                            <img src="~/Content/images/cpu.jpg" class="d-block w-100" alt="">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="~/Content/images/ear.jpg" class="d-block w-100" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="skew-header"></div>
+        </header>
+
+        <br>
+
+
+        @*body starts*@
+
+        <div id="landing">
+
+            <section id="category">
+                <h2>Categories</h2>
+                <div id="items">
+                    <div class="cat" id="item1"><a href="@Url.Action("category","Home")">@*<img src="~/Content/img/cat1.jpg">*@</a> <h6>home appliances</h6></div>
+                    <div class="cat" id="item2"><a href="@Url.Action("category","Home")">@*<img src="~/Content/img/cat2.jpg"*@</a><h6>computing</h6></div>
+                    <div class="cat" id="item3"><a href="@Url.Action("category","Home")">@*<img src="~/Content/img/cat3.jpeg">*@</a><h6>Accessories</h6></div>
+                    @*<div class="cats" id="item4"><a href="@Url.Action("category","Home")"><img src="~/Content/img/cat4.jpg"></a><h6>Laptop computers</h6></div>*@
+                </div>
+            </section>
+
+            <section id="BestSeller">
+                <h2>BestSeller</h2>
+                <div id="best">
+                    <div class="cats"><a href="@Url.Action("product","Home")"><img src="~/Content/images/fridge.jpg"></a><h6>Fridge</h6><p>20000Rs  30%off</p></div>
+                    <div class="cats"><a href="@Url.Action("product","Home")"><img src="~/Content/images/cpu.jpg"></a><h6>Cpu</h6><p>25000Rs 8%off</p></div>
+                    <div class="cats"><a href="@Url.Action("product","Home")"><img src="~/Content/images/ear.jpg"></a><h6>earohone</h6><p>1200Rs 5%off</p></div>
+                    <div class="cats"><a href="@Url.Action("product","Home")"><img src="~/Content/images/mouse.jpg"></a><h6>Gaming Mouse</h6><p>3000Rs 15%off</p></div>
+                </div>
+            </section>
+
+
+            @*<div id="brands">
+                <h2>Our brands</h2>
+                <div id="abc">
+                    <div class="brand"><h3>Amazon</h3><img src="~/Content/img/amazon.png" /><h5>Upto 30% off</h5><p>order now</p></div>
+                    <div class="brand"><h3>Woodland</h3><img src="~/Content/img/woodland.png" /><h5>Upto 20% off</h5><p>order now</p></div>
+                    <div class="brand"><h3>Sony</h3><img src="~/Content/img/sony.png" /><h5>Upto 45% off</h5><p>order now</p></div>
+                    <div class="brand"><h3>Nesle</h3><img src="~/Content/img/coffee.png" /><h5>Upto 50% off</h5><p>order now</p></div>
+                </div>
+            </div>*@
+
+
+
+            <div id="review">
+                <div id="detail">
+                    <img src="~/Content/images/testimo.png" />
+                    <h4>David</h4>
+                </div>
+                <div id="text">
+                    <img src="~/Content/images/rating.png" />
+                    <p style="font-family:Bahnschrift">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                </div>
+            </div>
+        </div>
+        @*body ends*@
+
+
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - All Rights Reserved</p>
+        </footer>
+
+
+
+
+
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script>
+$(document).ready(function() {
+	$("#carouselBanner").swiperight(function() {
+	  $(this).carousel('prev');
+	});
+	$("#carouselBanner").swipeleft(function() {
+	  $(this).carousel('next');
+	});
+});
+        </script>
+
+        <script>
+$(document).ready(function(){
+	$('a.page-scroll').click(function() {
+		if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+		  var target = $(this.hash);
+		  target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+		  if (target.length) {
+			$('html,body').animate({
+			  scrollTop: target.offset().top - 100
+			}, 900);
+			return false;
+		  }
+		}
+	});
+
+	// Show Menu on Book
+	$(window).bind('scroll', function() {
+		var navHeight = $(window).height() - 500;
+		if ($(window).scrollTop() > navHeight) {
+			$('.navbar').addClass('on');
+		} else {
+			$('.navbar').removeClass('on');
+		}
+	});
+
+	$('body').scrollspy({
+		target: '.navbar',
+		offset: 100
+	});
+
+	// Hide nav on click
+  	$(".navbar-nav li a").click(function (event) {
+		// check if window is small enough so dropdown is created
+		var toggle = $(".navbar-toggler").is(":visible");
+		if (toggle) {
+		  $(".navbar-collapse").collapse('hide');
+		}
+  	});
+});
+        </script>
+
+        <script>
+$(document).ready(function() {
+  $('#y-play-video').on('click', function(ev) {
+    $(".y-video-thumbnail").hide();
+    $(".y-video-embed").show();
+    $("#y-video")[0].src += "&autoplay=1";
+    ev.preventDefault();
+  });
+});
+        </script>
+
+    </body>
+</html>
